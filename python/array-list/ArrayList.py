@@ -198,5 +198,23 @@ class ArrayTests(unittest.TestCase):
             with self.assertRaises(Exception):
                 my_list.get(i)
 
+    #Tests to make sure the array can accept a variety of dissimilar of elements.
+    def test_heterogeneous(self):
+        my_list = ArrayList(10)
+        my_list.insert(0, ' World!')
+        my_list.insert(0, 'Hello')
+        self.assertEqual(2, my_list.len())
+        self.assertEqual(2, my_list.length)
+        my_list.prepend(None)
+        my_list.push(None)
+        self.assertEqual(None, my_list.get(0))
+        self.assertEqual(None, my_list.get(3))
+        my_list.insert(0, PlaceHolder)
+        self.assertEqual(5, my_list.len())
+        my_list.insert(5, PlaceHolder)
+        my_list.insert(1, 0)
+        self.assertEqual(7, my_list.len())
+        print(my_list)
+
 if __name__ == 'main':
     unittest.main()
