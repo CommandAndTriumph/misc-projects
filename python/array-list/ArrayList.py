@@ -1,11 +1,14 @@
 import unittest
 
+class PlaceHolder:
+    pass
+
 class ArrayList:
 
     def __init__(self, capacity):
         self.capacity = capacity
         self.length = 0
-        self.list = [None]*capacity
+        self.list = [PlaceHolder()]*capacity
 
     def insert(self, index, data):
         if index > self.len():
@@ -19,7 +22,7 @@ class ArrayList:
 
     def make_bigger(self):
         new_capacity = self.capacity + 10
-        list_temp = new_capacity * [None]
+        list_temp = new_capacity * [PlaceHolder()]
         for i in range(self.capacity):
             list_temp[i] = self.list[i]
         self.list = list_temp
@@ -28,7 +31,7 @@ class ArrayList:
     def len(self):
         index = 0
         while index < self.capacity:
-            if self.list[index] == None:
+            if isinstance(self.list[index], PlaceHolder):
                 break
             else:
                 index += 1
@@ -40,7 +43,7 @@ class ArrayList:
             raise Exception("Index out of bounds.")
         for i in range(index, self.len()):
             self.list[i] = self.list[i + 1]
-        self.list[self.capacity - 1] = None
+        self.list[self.capacity - 1] = PlaceHolder
 
     def set(self, index, data):
         if index > self.len():
@@ -96,6 +99,9 @@ class ArrayTests(unittest.TestCase):
         with self.assertRaises(Exception):
             my_list.insert(20, 20)
             my_list.insert(21, 20)
+        my_list.insert(0, None)
+        print(my_list)
+        self.assertEqual(11, my_list.len())
         #Tests for negative indexing, not yet supported in insert().
         # my_list.insert(-1, 10)
         # self.assertEqual(11, my_list.len())
