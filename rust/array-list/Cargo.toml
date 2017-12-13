@@ -1,0 +1,6 @@
+[package]
+name = "array-list"
+version = "0.1.0"
+authors = ["Alan Campbell <ahcampbellster@gmail.com>"]
+
+[dependencies]
