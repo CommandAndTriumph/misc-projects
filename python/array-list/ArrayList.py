@@ -1,14 +1,11 @@
 import unittest
 
-class PlaceHolder:
-    pass
-
 class ArrayList:
 
     def __init__(self, capacity):
         self.capacity = capacity
         self.length = 0
-        self.list = [PlaceHolder()]*capacity
+        self.list = [None]*capacity
 
     def insert(self, index, data):
         if index > self.len():
@@ -19,37 +16,34 @@ class ArrayList:
         self.list[index] = data
         if index < self.len():
             self.insert(index + 1, temp)
+        else:
+            self.length += 1
 
     def make_bigger(self):
         new_capacity = self.capacity + 10
-        list_temp = new_capacity * [PlaceHolder()]
+        list_temp = new_capacity * [None]
         for i in range(self.capacity):
             list_temp[i] = self.list[i]
         self.list = list_temp
         self.capacity = new_capacity
 
     def len(self):
-        index = 0
-        while index < self.capacity:
-            if isinstance(self.list[index], PlaceHolder):
-                break
-            else:
-                index += 1
-        self.length = index
-        return index
+        return self.length
 
     def remove(self, index):
-        if index >= self.len():
+        if index >= self.length:
             raise Exception("Index out of bounds.")
-        for i in range(index, self.len()):
+        for i in range(index, self.length - 1):
             self.list[i] = self.list[i + 1]
-        self.list[self.capacity - 1] = PlaceHolder
+        self.list[self.capacity - 1] = None
+        self.length -= 1
 
     def set(self, index, data):
         if index > self.len():
             raise Exception("Index out of bounds.")
         if index == self.len() and self.length == self.capacity:
             self.make_bigger()
+            self.length += 1
         self.list[index] = data
 
     def push(self, data):
@@ -92,12 +86,13 @@ class ArrayTests(unittest.TestCase):
         self.assertEqual(9, my_list.length)
         #Inserting at an index which is equal to self.capacity - 1, doing this should increase the capacity of the array by 10 and the length by 1.
         my_list.insert(9, 9)
-        self.assertEqual(20, my_list.capacity)
+        self.assertEqual(10, my_list.capacity)
         self.assertEqual(10, my_list.len())
         self.assertEqual(10, my_list.length)
         #Inserting outside capacity.
         with self.assertRaises(Exception):
             my_list.insert(20, 20)
+        with self.assertRaises(Exception):
             my_list.insert(21, 20)
         my_list.insert(0, None)
         print(my_list)
@@ -125,8 +120,7 @@ class ArrayTests(unittest.TestCase):
         #Test removal at an out of bounds index.
         with self.assertRaises(Exception):
             my_list.remove(0)
-            my_list.remove(10)
-            my_list.remove(20)
+
 
     def test_get(self):
         my_list = ArrayList(10)
@@ -137,7 +131,6 @@ class ArrayTests(unittest.TestCase):
         #Test at an index >= self.len()
         with self.assertRaises(Exception):
             my_list.get(10)
-            my_list.get(20)
         #Tests for negative indexing, not yet supported.
         # self.assertEqual(9, my_list.get(-1))
         # self.assertEqual(8, my_list.get(-2))
@@ -173,7 +166,7 @@ class ArrayTests(unittest.TestCase):
             self.assertEqual(i, my_list.get(i))
         self.assertEqual(10, my_list.len())
         self.assertEqual(10, my_list.length)
-        self.assertEqual(20, my_list.capacity)
+        self.assertEqual(10, my_list.capacity)
 
     def test_prepend(self):
         my_list = ArrayList(10)
@@ -183,7 +176,7 @@ class ArrayTests(unittest.TestCase):
             self.assertEqual(i, my_list.get(i))
         self.assertEqual(10, my_list.len())
         self.assertEqual(10, my_list.length)
-        self.assertEqual(20, my_list.capacity)
+        self.assertEqual(10, my_list.capacity)
 
     def test_pop(self):
         my_list = ArrayList(10)
@@ -209,9 +202,9 @@ class ArrayTests(unittest.TestCase):
         my_list.push(None)
         self.assertEqual(None, my_list.get(0))
         self.assertEqual(None, my_list.get(3))
-        my_list.insert(0, PlaceHolder)
+        my_list.insert(0, None)
         self.assertEqual(5, my_list.len())
-        my_list.insert(5, PlaceHolder)
+        my_list.insert(5, None)
         my_list.insert(1, 0)
         self.assertEqual(7, my_list.len())
         print(my_list)
