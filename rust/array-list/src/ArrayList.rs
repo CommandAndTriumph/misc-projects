@@ -7,7 +7,7 @@ struct ArrayList {
 
 impl ArrayList {
     fn new(capacity: usize) -> ArrayList {
-        ArrayList {capacity: capacity, length: 0, data: [i32, capacity]}
+        ArrayList { capacity: capacity, length: 0, data: [0, capacity] }
     }
 
     fn insert(&self, index: usize, int: i32) {
@@ -17,25 +17,20 @@ impl ArrayList {
         let temp = self.data[index];
         self.data[index] = int;
         if index < self.lens() - 1 {
-            self.insert( index + 1, temp);
+            self.insert(index + 1, temp);
+        } else {
+            self.length += 1;
         }
     }
 
-//    fn lens(&self) -> usize {
-//        let mut i: usize = 0;
-//        while i < self.capacity {
-//            match &self.data[i] {
-//                i32 => i += 1,
-//                _ => break,
-//            }
-//        }
-//        return i;
-//    }
-}
 
+    fn lens(&self) -> usize {
+        return self.length;
+    }
+}
 
 
 fn main() {
     let a = ArrayList::new(10);
-    println!("{:?}", a);
+    println!("{}", a);
 }

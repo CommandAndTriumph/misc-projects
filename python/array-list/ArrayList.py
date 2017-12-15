@@ -209,5 +209,5 @@ class ArrayTests(unittest.TestCase):
         self.assertEqual(7, my_list.len())
         print(my_list)
 
-if __name__ == 'main':
+if __name__ == '__main__':
     unittest.main()
