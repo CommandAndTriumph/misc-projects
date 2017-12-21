@@ -35,6 +35,5 @@ fn main() {
         Ok(t) => t,
     };
     let reader = BufReader::new(fh);
-    let mut count = 0;
     tail(reader);
 }
