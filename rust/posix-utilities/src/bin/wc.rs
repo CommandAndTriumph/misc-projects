@@ -13,7 +13,7 @@ fn wc(file_path: String) -> u32 {
     let mut string = String::new();
     let buffer = text.read_to_string(&mut string);
     let mut temp_str = String::new();
-    let mut count = 0;
+    let mut count: u32 = 0;
     for i in string.chars() {
         if i == ' ' {
             if temp_str.len() > 0 {
@@ -26,11 +26,11 @@ fn wc(file_path: String) -> u32 {
             temp_str.push(i)
         }
     }
+    if temp_str.len() > 0 {
+        count += 1
+    }
     return count;
 }
-
-
-
 
 fn main() {
     let file_path = env::args().nth(1).unwrap();
