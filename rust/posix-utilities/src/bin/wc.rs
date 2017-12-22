@@ -1,5 +1,5 @@
 use std::env;
-use std::io;
+//use std::io;
 use std::io::prelude::*;
 use std::io::BufReader;
 use std::fs::File;
@@ -11,24 +11,34 @@ fn wc(file_path: String) -> u32 {
     };
     let mut text = BufReader::new(fh);
     let mut string = String::new();
-    let buffer = text.read_to_string(&mut string);
+    let _ = text.read_to_string(&mut string);
     let mut temp_str = String::new();
     let mut count: u32 = 0;
     for i in string.chars() {
-        if i == ' ' {
-            if temp_str.len() > 0 {
-                temp_str.clear();
+        if !i.is_whitespace() {
+            temp_str.push(i);
+//            println!("{}", temp_str);
+            if temp_str.len() == 1 {
                 count += 1;
-            } else {
-                continue
             }
-        } else{
-            temp_str.push(i)
+        } else {
+            temp_str.clear();
         }
     }
-    if temp_str.len() > 0 {
-        count += 1
-    }
+
+//    for i in string.chars() {
+//        if i == ' ' {
+//            if temp_str.len() > 0 {
+//                temp_str.clear();
+//                count += 1;
+//            } else {
+//                continue
+//            }
+//        } else{
+//            temp_str.push(i)
+//        }
+//    }
+
     return count;
 }
 
